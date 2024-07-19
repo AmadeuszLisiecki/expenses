@@ -34,9 +34,12 @@ function solution(expenses) {
 
       for (const categoryKey in day) {
         const category = day[categoryKey];
+        const correctNumbers = category.filter(
+          value => !isNaN(value) && typeof value === 'number'
+        );
 
-        if (category.length) {
-          totalExpenses.push(...category);
+        if (correctNumbers.length) {
+          totalExpenses.push(...correctNumbers);
         }
       }
     }
@@ -48,17 +51,18 @@ function solution(expenses) {
     return null;
   }
 
-  const sortedExpenses = totalExpenses.sort((e1, e2) => e1 - e2);
+  totalExpenses.sort((e1, e2) => e1 - e2);
+
   const middleIndex = totalExpensesLength / 2;
 
   if (totalExpensesLength % 2 === 0) {
-    const middleLeftElement = sortedExpenses[middleIndex - 1];
-    const middleRightElement = sortedExpenses[middleIndex]
+    const middleLeftElement = totalExpenses[middleIndex - 1];
+    const middleRightElement = totalExpenses[middleIndex]
 
     return (middleLeftElement + middleRightElement) / 2;
   }
 
-  return sortedExpenses[parseInt(totalExpensesLength / 2)];
+  return totalExpenses[Math.floor(middleIndex)];
 }
 
 console.log(solution(fullExpenses));
